@@ -15,34 +15,16 @@
         .loader { width: 48px; height: 48px; border: 5px solid #cbd5e1; border-bottom-color: #3b82f6; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* --- CHANGE START: Improved Tab Scrolling --- */
-        .tab-scroll-container {
-            display: flex;
-            overflow-x: auto;
-            flex-wrap: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            padding-bottom: 8px; /* Add some padding for scroll shadow if needed */
-        }
-        .tab-scroll-container::-webkit-scrollbar {
-            display: none;
-        }
+        /* --- This style block is intentionally minimal as Tailwind is used --- */
         .tab {
-            flex-shrink: 0; /* Prevent tabs from shrinking */
-            display: inline-block;
-            cursor: pointer;
-            padding: 8px 16px;
-            margin: 0 4px;
-            border-radius: 9999px;
-            background-color: #e2e8f0;
-            color: #475569;
             transition: all 0.2s ease-in-out;
-            font-weight: 500;
         }
-        /* --- CHANGE END --- */
-
-        .tab:hover { background-color: #cbd5e1; }
-        .tab.active { background-color: #3b82f6; color: white; font-weight: 700; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .tab.active {
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -97,7 +79,6 @@
             {key: 'ল', char: 'ল'}, {key: 'শ', char: 'শ'}, {key: 'ষ', char: 'ষ'},
             {key: 'স', char: 'স'}, {key: 'হ', char: 'হ'}
         ];
-        // --- CHANGE: Removed the 'conjuncts' array ---
         
         const searchInput = document.getElementById('searchInput');
         const resultsContainer = document.getElementById('results-container');
@@ -196,10 +177,21 @@
 
         function setupTabs() {
             const createTabs = (letters) => letters.map(l => `<div class="tab" data-key="${l.key}">${l.char}</div>`).join('');
-            // --- CHANGE: Removed the 'conjuncts' section ---
+            
+            // --- CHANGE: Use flex-wrap to display all tabs in parallel ---
             tabContainer.innerHTML = `
-                <div><h3 class="text-sm font-bold text-slate-500 my-2 px-4">母音</h3><div class="tab-scroll-container pb-2">${createTabs(vowels)}</div></div>
-                <div><h3 class="text-sm font-bold text-slate-500 my-2 px-4">子音</h3><div class="tab-scroll-container pb-2">${createTabs(consonants)}</div></div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-500 my-2 px-4">母音</h3>
+                    <div class="flex flex-wrap justify-center gap-2 pb-2">
+                        ${createTabs(vowels)}
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-500 my-2 px-4">子音</h3>
+                    <div class="flex flex-wrap justify-center gap-2 pb-2">
+                        ${createTabs(consonants)}
+                    </div>
+                </div>
             `;
             tabContainer.addEventListener('click', handleTabClick);
         }
