@@ -14,17 +14,8 @@
         i { color: #475569; font-style: italic; }
         .loader { width: 48px; height: 48px; border: 5px solid #cbd5e1; border-bottom-color: #3b82f6; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        /* --- This style block is intentionally minimal as Tailwind is used --- */
-        .tab {
-            transition: all 0.2s ease-in-out;
-        }
-        .tab.active {
-            background-color: #3b82f6;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
+        .tab { transition: all 0.2s ease-in-out; }
+        .tab.active { background-color: #3b82f6; color: white; font-weight: 700; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -176,19 +167,19 @@
         }
 
         function setupTabs() {
-            const createTabs = (letters) => letters.map(l => `<div class="tab" data-key="${l.key}">${l.char}</div>`).join('');
+            const createTabs = (letters) => letters.map(l => `<div class="tab cursor-pointer p-2 px-4 m-1 rounded-full bg-slate-200 hover:bg-slate-300" data-key="${l.key}">${l.char}</div>`).join('');
             
-            // --- CHANGE: Use flex-wrap to display all tabs in parallel ---
+            // This layout uses flex-wrap to show all tabs in parallel, wrapping them if the screen is narrow. No horizontal scrolling.
             tabContainer.innerHTML = `
                 <div>
                     <h3 class="text-sm font-bold text-slate-500 my-2 px-4">母音</h3>
-                    <div class="flex flex-wrap justify-center gap-2 pb-2">
+                    <div class="flex flex-wrap justify-center items-center">
                         ${createTabs(vowels)}
                     </div>
                 </div>
                 <div>
                     <h3 class="text-sm font-bold text-slate-500 my-2 px-4">子音</h3>
-                    <div class="flex flex-wrap justify-center gap-2 pb-2">
+                    <div class="flex flex-wrap justify-center items-center">
                         ${createTabs(consonants)}
                     </div>
                 </div>
